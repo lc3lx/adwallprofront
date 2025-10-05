@@ -118,10 +118,11 @@ export function CategoriesGrid() {
       <div className="container-premium">
         <div className="mb-12 text-center">
           <h2 className="text-ultra-lg font-black mb-6 text-balance">
-            استكشف <span className="gradient-text">التصنيفات</span>
+            {t("exploreCategories")}{" "}
+            <span className="gradient-text">{t("categories")}</span>
           </h2>
           <p className="text-ultra-base text-muted-foreground max-w-3xl mx-auto text-balance leading-relaxed mb-8">
-            اكتشف آلاف الشركات المصنفة حسب المجال والتخصص في منصة AdWell العصرية
+            {t("discoverThousandsCompanies")}
           </p>
 
           <Button
@@ -131,7 +132,7 @@ export function CategoriesGrid() {
           >
             <Link href="/categories">
               <Eye className="h-5 w-5 mr-2" />
-              عرض جميع التصنيفات
+              {t("viewAllCategories")}
               <ArrowRight className="h-4 w-4 ml-2" />
             </Link>
           </Button>

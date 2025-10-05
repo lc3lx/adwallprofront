@@ -449,7 +449,7 @@ export default function CompaniesCategoryPage() {
               {companies.length === 0 ? (
                 <>
                   <Button asChild className="bg-primary hover:bg-primary/90">
-                    <Link href="/add-company">
+                    <Link href="/manage/companies/new">
                       <Plus className="h-4 w-4 mr-2" />
                       {t("addMyCompany")}
                     </Link>

@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { AdminRoute } from "@/components/auth/route-guard";
 import { AdminCategoriesTable } from "@/components/admin/admin-categories-table";
 import { CategoryStats } from "@/components/admin/category-stats";
+import { useI18n } from "@/providers/lang-provider";
 import { Tags, Plus, AlertCircle } from "@/components/ui/icon";
 import { CreateCategoryDialog } from "@/components/admin/create-category-dialog";
 
 function AdminCategoriesContent() {
+  const { t } = useI18n();
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -23,10 +25,10 @@ function AdminCategoriesContent() {
               <Tags className="h-8 w-8 text-primary" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  إدارة الفئات
+                  {t("adminCategoriesManagementTitle")}
                 </h1>
                 <p className="text-gray-600 mt-2">
-                  إدارة فئات الشركات والخدمات في المنصة
+                  {t("adminCategoriesManagementDesc")}
                 </p>
               </div>
             </div>
@@ -35,7 +37,7 @@ function AdminCategoriesContent() {
               className="bg-primary hover:bg-primary/90"
             >
               <Plus className="h-4 w-4 mr-2" />
-              إضافة فئة جديدة
+              {t("adminAddNewCategory")}
             </Button>
           </div>
 
@@ -47,7 +49,7 @@ function AdminCategoriesContent() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <AlertCircle className="h-5 w-5 text-orange-500" />
-                قائمة الفئات
+                {t("adminCategoriesList")}
               </CardTitle>
             </CardHeader>
             <CardContent>

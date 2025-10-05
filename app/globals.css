@@ -5,6 +5,11 @@
 /* Modern CSS Variables */
 @layer base {
   :root {
+    /* Modern Typography */
+    --font-inter: "Inter", sans-serif;
+    --font-poppins: "Poppins", sans-serif;
+    --font-outfit: "Outfit", sans-serif;
+    --font-plus-jakarta: "Plus Jakarta Sans", sans-serif;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -88,6 +93,11 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    font-optical-sizing: auto;
+    font-variation-settings: "wdth" 100;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background: radial-gradient(
         circle at 20% 80%,
         hsl(220 100% 60% / 0.15) 0%,

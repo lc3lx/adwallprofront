@@ -6,8 +6,10 @@ import { useParams } from "next/navigation";
 import { getAdById } from "@/lib/store";
 import { Breadcrumb } from "@/components/common/breadcrumb";
 import { getCurrentUser } from "@/lib/auth";
+import { useI18n } from "@/providers/lang-provider";
 
 export default function ManageAdPage() {
+  const { t } = useI18n();
   const { id } = useParams<{ id: string }>();
   const ad = getAdById(id);
   const user = getCurrentUser();
@@ -17,10 +19,8 @@ export default function ManageAdPage() {
       <div className="min-h-screen bg-pattern-grid">
         <div className="container-premium py-8 pt-24">
           <div className="text-center py-16">
-            <h1 className="text-2xl font-bold mb-4">إعلان غير موجود</h1>
-            <p className="text-muted-foreground">
-              لم يتم العثور على الإعلان المطلوب
-            </p>
+            <h1 className="text-2xl font-bold mb-4">{t("adNotFound")}</h1>
+            <p className="text-muted-foreground">{t("adNotFoundDesc")}</p>
           </div>
         </div>
       </div>
@@ -40,12 +40,10 @@ export default function ManageAdPage() {
             <div className="max-w-md mx-auto">
               <div className="ultra-card p-8 text-center">
                 <h2 className="text-2xl font-bold text-red-600 mb-4">
-                  غير مصرح
+                  {t("unauthorized")}
                 </h2>
                 <p className="text-muted-foreground">
-                  {!user
-                    ? "يجب تسجيل الدخول أولاً"
-                    : "ليس لديك صلاحية لإدارة هذا الإعلان"}
+                  {!user ? t("loginRequiredDesc") : t("noPermissionToManageAd")}
                 </p>
               </div>
             </div>
@@ -59,7 +57,7 @@ export default function ManageAdPage() {
             <div className="space-y-8">
               <Breadcrumb
                 items={[
-                  { label: "إدارة الإعلانات" },
+                  { label: t("manageAds"), href: "/manage/ads" },
                   { label: ad.companyName },
                 ]}
               />
@@ -73,10 +71,10 @@ export default function ManageAdPage() {
             <div className="max-w-md mx-auto">
               <div className="ultra-card p-8 text-center">
                 <h2 className="text-2xl font-bold text-red-600 mb-4">
-                  غير مصرح
+                  {t("unauthorized")}
                 </h2>
                 <p className="text-muted-foreground">
-                  ليس لديك صلاحية لإدارة هذا الإعلان
+                  {t("noPermissionToManageAd")}
                 </p>
               </div>
             </div>

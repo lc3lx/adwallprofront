@@ -135,7 +135,7 @@ export function CategoriesAll() {
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="ابحث في التصنيفات..."
+              placeholder={t("searchCategories")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 rounded-xl"
@@ -150,7 +150,7 @@ export function CategoriesAll() {
               className="rounded-xl"
             >
               <Filter className="h-4 w-4 mr-2" />
-              فلاتر
+              {t("filters")}
             </Button>
 
             <div className="flex items-center rounded-xl border p-1">
@@ -183,7 +183,7 @@ export function CategoriesAll() {
               asChild
               className="rounded-full hover:bg-primary-50 hover:border-primary-200"
             >
-              <Link href="/categories">جميع التصنيفات</Link>
+              <Link href="/categories">{t("allCategories")}</Link>
             </Button>
             {categories.slice(0, 8).map((cat) => {
               const name = locale === "ar" ? cat.nameAr : cat.nameEn;
@@ -195,7 +195,7 @@ export function CategoriesAll() {
                     size="sm"
                     className="rounded-full hover:bg-primary-50 hover:border-primary-200"
                   >
-                    {name || "تصنيف غير محدد"} ({count})
+                    {name || t("undefinedCategory")} ({count})
                   </Button>
                 </Link>
               );
@@ -208,19 +208,19 @@ export function CategoriesAll() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <h2 className="text-2xl font-bold">جميع التصنيفات</h2>
+            <h2 className="text-2xl font-bold">{t("allCategories")}</h2>
             <Badge variant="secondary" className="rounded-full">
-              {filteredCategories.length} تصنيف
+              {filteredCategories.length} {t("category")}
             </Badge>
           </div>
         </div>
 
         {filteredCategories.length === 0 ? (
           <EmptyState
-            title="لا توجد نتائج"
-            description="لم يتم العثور على تصنيفات تطابق بحثك"
+            title={t("noResults")}
+            description={t("noMatchingCategories")}
             action={{
-              label: "مسح البحث",
+              label: t("clearSearch"),
               href: "#",
             }}
           />
@@ -278,7 +278,8 @@ export function CategoriesAll() {
                           {name || "تصنيف غير محدد"}
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                          اكتشف أفضل الشركات في {name || "هذا التصنيف"}
+                          {t("discoverBestCompanies")}{" "}
+                          {name || t("undefinedCategory")}
                         </p>
                       </div>
 
@@ -290,7 +291,7 @@ export function CategoriesAll() {
                       >
                         <Link href={`/companies/category/${cat._id}`}>
                           <ArrowRight className="h-4 w-4 mr-2" />
-                          استكشف الشركات
+                          {t("exploreCompanies")}
                         </Link>
                       </Button>
                     </div>
@@ -335,7 +336,7 @@ export function CategoriesAll() {
                             style={{ backgroundColor: cat.color }}
                           />
                           <h3 className="font-bold text-lg group-hover:text-primary-600 transition-colors">
-                            {name || "تصنيف غير محدد"}
+                            {name || t("undefinedCategory")}
                           </h3>
                         </div>
 
@@ -344,7 +345,7 @@ export function CategoriesAll() {
                             variant="secondary"
                             className="rounded-full text-xs"
                           >
-                            {adsCount} شركة
+                            {adsCount} {t("company")}
                           </Badge>
                           {vipCount > 0 && (
                             <Badge className="bg-amber-100 text-amber-700 border-0 rounded-full text-xs">

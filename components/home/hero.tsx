@@ -114,7 +114,7 @@ export function UltraHero() {
                   <div className="text-3xl font-black gradient-text">1000+</div>
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">
-                  شركة مسجلة
+                  {t("registeredCompanies")}
                 </div>
               </div>
               <div className="text-center group">
@@ -123,7 +123,7 @@ export function UltraHero() {
                   <div className="text-3xl font-black gradient-text">14</div>
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">
-                  تصنيف متنوع
+                  {t("diverseCategories")}
                 </div>
               </div>
               <div className="text-center group">
@@ -132,7 +132,7 @@ export function UltraHero() {
                   <div className="text-3xl font-black gradient-text">3</div>
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">
-                  دول مدعومة
+                  {t("supportedCountries")}
                 </div>
               </div>
             </div>

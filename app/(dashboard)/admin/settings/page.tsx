@@ -19,8 +19,10 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { useI18n } from "@/providers/lang-provider";
 
 function AdminSettingsContent() {
+  const { t } = useI18n();
   const [settings, setSettings] = useState({
     apiUrl: "https://adwallpro.com/api/v1",
     appName: "AddWall",
@@ -35,8 +37,8 @@ function AdminSettingsContent() {
   });
 
   const handleSave = () => {
-    // هنا سيتم حفظ الإعدادات في قاعدة البيانات
-    toast.success("تم حفظ الإعدادات بنجاح");
+    // Here settings will be saved to the database
+    toast.success(t("adminSettingsSaved"));
   };
 
   return (
@@ -51,10 +53,10 @@ function AdminSettingsContent() {
               <Settings className="h-8 w-8 text-primary" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  إعدادات النظام
+                  {t("adminSystemSettings")}
                 </h1>
                 <p className="text-gray-600 mt-2">
-                  إدارة إعدادات المنصة والتكوين العام
+                  {t("adminSystemSettingsDesc")}
                 </p>
               </div>
             </div>
@@ -63,7 +65,7 @@ function AdminSettingsContent() {
               className="bg-primary hover:bg-primary/90"
             >
               <Save className="h-4 w-4 mr-2" />
-              حفظ التغييرات
+              {t("adminSaveChanges")}
             </Button>
           </div>
 
@@ -72,14 +74,16 @@ function AdminSettingsContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  حالة النظام
+                  {t("adminSystemStatus")}
                 </CardTitle>
                 <AlertCircle className="h-4 w-4 text-green-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-green-600">ممتاز</div>
+                <div className="text-2xl font-bold text-green-600">
+                  {t("adminExcellent")}
+                </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  جميع الخدمات تعمل بشكل طبيعي
+                  {t("adminAllServicesRunning")}
                 </p>
               </CardContent>
             </Card>
@@ -87,14 +91,14 @@ function AdminSettingsContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  مساحة القرص
+                  {t("adminDiskSpace")}
                 </CardTitle>
                 <Database className="h-4 w-4 text-blue-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-blue-600">2.4 GB</div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  75% من المساحة متاحة
+                  {t("adminAvailableSpace")}
                 </p>
               </CardContent>
             </Card>
@@ -102,16 +106,16 @@ function AdminSettingsContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  آخر نسخة احتياطية
+                  {t("adminLastBackup")}
                 </CardTitle>
                 <Shield className="h-4 w-4 text-green-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">
-                  منذ ساعة
+                  {t("adminHourAgo")}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  تم إنشاؤها بنجاح
+                  {t("adminCreatedSuccessfully")}
                 </p>
               </CardContent>
             </Card>
@@ -119,14 +123,14 @@ function AdminSettingsContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  الذاكرة المستخدمة
+                  {t("adminMemoryUsage")}
                 </CardTitle>
                 <Server className="h-4 w-4 text-orange-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-orange-600">68%</div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  الأداء مستقر وطبيعي
+                  {t("adminPerformanceStable")}
                 </p>
               </CardContent>
             </Card>
@@ -139,12 +143,12 @@ function AdminSettingsContent() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Server className="h-5 w-5 text-primary" />
-                  إعدادات الخادم
+                  {t("adminServerSettings")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="api-url">رابط API</Label>
+                  <Label htmlFor="api-url">{t("adminApiUrl")}</Label>
                   <Input
                     id="api-url"
                     value={settings.apiUrl}
@@ -154,7 +158,7 @@ function AdminSettingsContent() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="app-name">اسم التطبيق</Label>
+                  <Label htmlFor="app-name">{t("adminAppName")}</Label>
                   <Input
                     id="app-name"
                     value={settings.appName}
@@ -171,12 +175,12 @@ function AdminSettingsContent() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Database className="h-5 w-5 text-primary" />
-                  قاعدة البيانات
+                  {t("adminDatabaseSettings")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label>النسخ الاحتياطي التلقائي</Label>
+                  <Label>{t("adminAutoBackup")}</Label>
                   <Switch
                     checked={settings.enableAutoBackup}
                     onCheckedChange={(checked) =>
@@ -185,7 +189,7 @@ function AdminSettingsContent() {
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label>ضغط البيانات</Label>
+                  <Label>{t("adminDataCompression")}</Label>
                   <Switch
                     checked={settings.enableCompression}
                     onCheckedChange={(checked) =>
@@ -195,7 +199,7 @@ function AdminSettingsContent() {
                 </div>
                 <Separator />
                 <Button variant="outline" className="w-full">
-                  إنشاء نسخة احتياطية الآن
+                  {t("adminCreateBackupNow")}
                 </Button>
               </CardContent>
             </Card>
@@ -205,12 +209,12 @@ function AdminSettingsContent() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Mail className="h-5 w-5 text-primary" />
-                  البريد الإلكتروني
+                  {t("adminEmailSettings")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="smtp-host">خادم SMTP</Label>
+                  <Label htmlFor="smtp-host">{t("adminSmtpServer")}</Label>
                   <Input
                     id="smtp-host"
                     placeholder="smtp.gmail.com"
@@ -221,7 +225,7 @@ function AdminSettingsContent() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="smtp-port">المنفذ</Label>
+                  <Label htmlFor="smtp-port">{t("adminPort")}</Label>
                   <Input
                     id="smtp-port"
                     placeholder="587"
@@ -232,7 +236,7 @@ function AdminSettingsContent() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="smtp-user">البريد الإلكتروني</Label>
+                  <Label htmlFor="smtp-user">{t("adminEmailAddress")}</Label>
                   <Input
                     id="smtp-user"
                     type="email"
@@ -251,12 +255,12 @@ function AdminSettingsContent() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Shield className="h-5 w-5 text-primary" />
-                  الأمان
+                  {t("adminSecuritySettings")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label>المصادقة الثنائية</Label>
+                  <Label>{t("adminTwoFactorAuth")}</Label>
                   <Switch
                     checked={settings.enable2FA}
                     onCheckedChange={(checked) =>
@@ -265,7 +269,7 @@ function AdminSettingsContent() {
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label>تسجيل العمليات</Label>
+                  <Label>{t("adminOperationLogging")}</Label>
                   <Switch
                     checked={settings.enableLogging}
                     onCheckedChange={(checked) =>
@@ -274,7 +278,7 @@ function AdminSettingsContent() {
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label>حماية من البريد المزعج</Label>
+                  <Label>{t("adminSpamProtection")}</Label>
                   <Switch
                     checked={settings.enableSpamProtection}
                     onCheckedChange={(checked) =>
@@ -287,7 +291,7 @@ function AdminSettingsContent() {
                 </div>
                 <Separator />
                 <Button variant="destructive" className="w-full">
-                  مسح جميع الجلسات النشطة
+                  {t("adminClearActiveSessions")}
                 </Button>
               </CardContent>
             </Card>

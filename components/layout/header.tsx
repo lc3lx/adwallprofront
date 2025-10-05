@@ -16,6 +16,8 @@ import {
   Sparkles,
   Info,
   LogIn,
+  Shield,
+  LayoutDashboard,
 } from "@/components/ui/icon";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -40,14 +42,6 @@ export function UltraHeader() {
     setUser(getCurrentUser());
   }, [pathname]);
 
-  const scrollToAbout = () => {
-    const aboutSection = document.getElementById("about-us-section");
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" });
-      setMobileOpen(false);
-    }
-  };
-
   // تحديد تكوين زر إضافة الإعلان بناءً على حالة تسجيل الدخول
   const getAddButtonConfig = () => {
     if (user) {
@@ -67,22 +61,64 @@ export function UltraHeader() {
 
   const addButtonConfig = getAddButtonConfig();
 
+  // Check if user is on dashboard pages
+  const isOnDashboard = pathname.startsWith("/manage");
+
   const nav = [
-    { href: "/", label: t("home"), icon: Home },
-    { href: "/categories", label: t("categories"), icon: Grid3X3 },
-    {
-      href: "#about",
-      label: t("aboutUs"),
-      icon: Info,
-      onClick: scrollToAbout,
-    },
+    // Show dashboard button for regular users when not on dashboard
+    ...(user && !isAdmin(user) && !isOnDashboard
+      ? [
+          {
+            href: "/manage",
+            label: t("dashboard"),
+            icon: LayoutDashboard,
+            onClick: undefined,
+          },
+        ]
+      : []),
+    // Show home button when on dashboard
+    ...(isOnDashboard
+      ? [{ href: "/", label: t("home"), icon: Home, onClick: undefined }]
+      : []),
+    // Regular navigation when not on dashboard
+    ...(!isOnDashboard
+      ? [
+          { href: "/", label: t("home"), icon: Home, onClick: undefined },
+          {
+            href: "/categories",
+            label: t("categories"),
+            icon: Grid3X3,
+            onClick: undefined,
+          },
+          {
+            href: "/about",
+            label: t("aboutUs"),
+            icon: Info,
+            onClick: undefined,
+          },
+          {
+            href: "/privacy-policy",
+            label: t("privacyPolicy"),
+            icon: Shield,
+            onClick: undefined,
+          },
+        ]
+      : []),
     {
       href: addButtonConfig.href,
       label: addButtonConfig.label,
       icon: addButtonConfig.icon,
+      onClick: undefined,
     },
     ...(isAdmin(user)
-      ? [{ href: "/admin", label: t("admin"), icon: Settings }]
+      ? [
+          {
+            href: "/admin",
+            label: t("admin"),
+            icon: Settings,
+            onClick: undefined,
+          },
+        ]
       : []),
   ];
 
@@ -90,7 +126,9 @@ export function UltraHeader() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        scrolled ? "glass shadow-2xl" : "bg-transparent"
+        scrolled
+          ? "bg-background/95 backdrop-blur-sm border-b border-border/50 shadow-lg"
+          : "bg-transparent"
       )}
     >
       <div className="container-premium">
@@ -219,7 +257,7 @@ export function UltraHeader() {
             : "opacity-0 -translate-y-8 pointer-events-none"
         )}
       >
-        <div className="glass border-t mx-6 rounded-3xl shadow-2xl">
+        <div className="bg-background/95 backdrop-blur-sm border border-border/50 mx-6 rounded-3xl shadow-2xl">
           <div className="p-8 space-y-8">
             <nav className="space-y-3">
               {nav.map((n) => {

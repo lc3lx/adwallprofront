@@ -19,6 +19,7 @@ import { LoadingSpinner } from "@/components/common/loading-spinner";
 import { toast } from "sonner";
 import { Plus, Tags } from "@/components/ui/icon";
 import { getCurrentUser } from "@/lib/auth";
+import { useI18n } from "@/providers/lang-provider";
 
 interface Category {
   _id: string;
@@ -28,6 +29,7 @@ interface Category {
 }
 
 function AddAdPageContent() {
+  const { t } = useI18n();
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
@@ -35,7 +37,7 @@ function AddAdPageContent() {
     companyName: "",
     categoryId: "",
     description: "",
-    country: "السعودية",
+    country: t("saudiArabia"),
     city: "",
     email: "",
     whatsapp: "",
@@ -73,14 +75,14 @@ function AddAdPageContent() {
         console.log("Using direct data:", categoriesData);
       } else {
         console.error("Unexpected response structure:", data);
-        throw new Error("استجابة غير صحيحة من الخادم");
+        throw new Error(t("unexpectedServerResponse"));
       }
 
       setCategories(categoriesData);
       console.log("Categories loaded successfully:", categoriesData);
     } catch (error) {
       console.error("Error fetching categories:", error);
-      toast.error("فشل في جلب الفئات");
+      toast.error(t("failedToFetchCategories"));
     } finally {
       setCategoriesLoading(false);
     }
@@ -106,9 +108,7 @@ function AddAdPageContent() {
       // جلب user_data من localStorage
       const userDataString = localStorage.getItem("user_data");
       if (!userDataString) {
-        throw new Error(
-          "بيانات المستخدم غير موجودة. يرجى تسجيل الدخول مرة أخرى."
-        );
+        throw new Error(t("userDataNotFound"));
       }
 
       const userData = JSON.parse(userDataString);
@@ -117,7 +117,7 @@ function AddAdPageContent() {
       console.log("User ID:", userId);
 
       if (!userId) {
-        throw new Error("معرف المستخدم غير موجود. يرجى تسجيل الدخول مرة أخرى.");
+        throw new Error(t("userIdNotFound"));
       }
 
       // إنشاء FormData لإرسال البيانات
@@ -168,7 +168,7 @@ function AddAdPageContent() {
       const successData = await response.json();
       console.log("Success response:", successData);
 
-      toast.success("تم إضافة الإعلان بنجاح! سيتم مراجعته من قبل الأدمن");
+      toast.success(t("adAddedSuccessfully"));
 
       // إعادة تعيين النموذج
       setFormData({
@@ -189,7 +189,7 @@ function AddAdPageContent() {
     } catch (error) {
       console.error("Error creating company:", error);
       const errorMessage =
-        error instanceof Error ? error.message : "فشل في إضافة الإعلان";
+        error instanceof Error ? error.message : t("failedToAddAd");
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -201,19 +201,18 @@ function AddAdPageContent() {
       <div className="container mx-auto px-4 py-8 pt-24">
         <Breadcrumb
           items={[
-            { label: "لوحة التحكم", href: "/manage" },
-            { label: "إعلاناتي", href: "/manage/ads" },
-            { label: "إضافة إعلان جديد" },
+            { label: t("dashboard"), href: "/manage" },
+            { label: t("myAds"), href: "/manage/ads" },
+            { label: t("addNewAd") },
           ]}
         />
 
         <div className="mt-8 mb-12 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black gradient-text mb-6">
-            إضافة إعلان جديد
+            {t("addNewAd")}
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            أضف شركتك واختر الخطة المناسبة للحصول على أفضل ظهور في منصة AdWell
-            العصرية
+            {t("addCompanyAndChoosePlan")}
           </p>
         </div>
 
@@ -224,16 +223,15 @@ function AddAdPageContent() {
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5"></div>
               <div className="relative z-10">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-black gradient-text mb-4">
-                  أضف شركتك مجاناً
+                  {t("addCompanyForFree")}
                 </h2>
                 <p className="text-base md:text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
-                  املأ النموذج أدناه وسيتم مراجعة طلبك من قبل فريقنا خلال 24-48
-                  ساعة
+                  {t("fillFormAndReview")}
                 </p>
                 {!categoriesLoading && categories.length > 0 && (
                   <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
                     <Tags className="h-4 w-4" />
-                    {categories.length} فئة متاحة للاختيار منها
+                    {categories.length} {t("categoriesAvailable")}
                   </div>
                 )}
               </div>
@@ -242,7 +240,7 @@ function AddAdPageContent() {
             {/* Company Info */}
             <div className="ultra-card p-6 md:p-8 lg:p-10">
               <h3 className="text-xl md:text-2xl lg:text-3xl font-bold gradient-text mb-8 text-center">
-                معلومات الشركة
+                {t("companyInfoTitle")}
               </h3>
 
               <div className="space-y-8">
@@ -252,7 +250,7 @@ function AddAdPageContent() {
                       htmlFor="companyName"
                       className="text-base font-semibold"
                     >
-                      اسم الشركة *
+                      {t("companyNameLabel")}
                     </Label>
                     <Input
                       id="companyName"
@@ -263,14 +261,14 @@ function AddAdPageContent() {
                           companyName: e.target.value,
                         })
                       }
-                      placeholder="مثال: مطعم الرياض الأصيل"
+                      placeholder={t("companyNamePlaceholder")}
                       required
                       className="rounded-xl h-12 text-base border-2 focus:border-primary/50 transition-all duration-200"
                     />
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="email" className="text-base font-semibold">
-                      البريد الإلكتروني *
+                      {t("emailLabelForm")}
                     </Label>
                     <Input
                       id="email"
@@ -279,7 +277,7 @@ function AddAdPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      placeholder="info@riyadh-restaurant.com"
+                      placeholder={t("emailPlaceholder")}
                       required
                       className="rounded-xl h-12 text-base border-2 focus:border-primary/50 transition-all duration-200"
                     />
@@ -291,7 +289,7 @@ function AddAdPageContent() {
                     htmlFor="description"
                     className="text-base font-semibold"
                   >
-                    وصف الشركة *
+                    {t("companyDescriptionLabel")}
                   </Label>
                   <Textarea
                     id="description"
@@ -299,7 +297,7 @@ function AddAdPageContent() {
                     onChange={(e) =>
                       setFormData({ ...formData, description: e.target.value })
                     }
-                    placeholder="نحن مطعم متخصص في الأكلات الشعبية السعودية منذ أكثر من 20 عام. نقدم أشهى المأكولات بأعلى جودة وأفضل الأسعار في قلب العاصمة الرياض."
+                    placeholder={t("companyDescriptionPlaceholder")}
                     rows={4}
                     required
                     className="rounded-xl text-base border-2 focus:border-primary/50 transition-all duration-200 resize-none"
@@ -309,13 +307,13 @@ function AddAdPageContent() {
                 {/* Category Selection */}
                 <div className="space-y-3">
                   <Label className="text-base font-semibold">
-                    اختر فئة الشركة *
+                    {t("selectCompanyCategory")}
                   </Label>
                   {categoriesLoading ? (
                     <div className="flex items-center gap-3 p-4 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50">
                       <LoadingSpinner />
                       <span className="text-base text-muted-foreground">
-                        جاري تحميل الفئات...
+                        {t("loadingCategories")}
                       </span>
                     </div>
                   ) : categories.length === 0 ? (
@@ -323,7 +321,7 @@ function AddAdPageContent() {
                       <div className="text-center">
                         <Tags className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
                         <span className="text-base text-yellow-700 font-medium">
-                          لا توجد فئات متاحة حالياً
+                          {t("noCategoriesAvailable")}
                         </span>
                       </div>
                       <Button
@@ -332,7 +330,7 @@ function AddAdPageContent() {
                         onClick={fetchCategories}
                         className="text-yellow-700 border-yellow-300 hover:bg-yellow-100 rounded-xl"
                       >
-                        إعادة تحميل
+                        {t("reload")}
                       </Button>
                     </div>
                   ) : (
@@ -344,7 +342,7 @@ function AddAdPageContent() {
                       required
                     >
                       <SelectTrigger className="rounded-xl h-12 text-base border-2 focus:border-primary/50 transition-all duration-200">
-                        <SelectValue placeholder="اختر فئة الشركة" />
+                        <SelectValue placeholder={t("selectCategory")} />
                       </SelectTrigger>
                       <SelectContent>
                         {categories.map((category) => (
@@ -371,7 +369,7 @@ function AddAdPageContent() {
                       htmlFor="country"
                       className="text-base font-semibold"
                     >
-                      البلد *
+                      {t("countryLabel")}
                     </Label>
                     <Input
                       id="country"
@@ -379,14 +377,14 @@ function AddAdPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, country: e.target.value })
                       }
-                      placeholder="السعودية"
+                      placeholder={t("countryPlaceholder")}
                       required
                       className="rounded-xl h-12 text-base border-2 focus:border-primary/50 transition-all duration-200"
                     />
                   </div>
                   <div className="space-y-3">
                     <Label htmlFor="city" className="text-base font-semibold">
-                      المدينة *
+                      {t("cityLabel")}
                     </Label>
                     <Input
                       id="city"
@@ -394,7 +392,7 @@ function AddAdPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, city: e.target.value })
                       }
-                      placeholder="الرياض"
+                      placeholder={t("cityPlaceholder")}
                       required
                       className="rounded-xl h-12 text-base border-2 focus:border-primary/50 transition-all duration-200"
                     />
@@ -407,7 +405,7 @@ function AddAdPageContent() {
                       htmlFor="whatsapp"
                       className="text-base font-semibold"
                     >
-                      واتساب
+                      {t("whatsappLabel")}
                     </Label>
                     <Input
                       id="whatsapp"
@@ -415,7 +413,7 @@ function AddAdPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, whatsapp: e.target.value })
                       }
-                      placeholder="+966501234567"
+                      placeholder={t("whatsappPlaceholder")}
                       className="rounded-xl h-12 text-base border-2 focus:border-primary/50 transition-all duration-200"
                     />
                   </div>
@@ -424,7 +422,7 @@ function AddAdPageContent() {
                       htmlFor="website"
                       className="text-base font-semibold"
                     >
-                      الموقع الإلكتروني
+                      {t("websiteLabelForm")}
                     </Label>
                     <Input
                       id="website"
@@ -432,7 +430,7 @@ function AddAdPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, website: e.target.value })
                       }
-                      placeholder="https://riyadh-restaurant.com"
+                      placeholder={t("websitePlaceholder")}
                       className="rounded-xl h-12 text-base border-2 focus:border-primary/50 transition-all duration-200"
                     />
                   </div>
@@ -441,7 +439,7 @@ function AddAdPageContent() {
                       htmlFor="facebook"
                       className="text-base font-semibold"
                     >
-                      فيسبوك
+                      {t("facebookLabelForm")}
                     </Label>
                     <Input
                       id="facebook"
@@ -449,7 +447,7 @@ function AddAdPageContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, facebook: e.target.value })
                       }
-                      placeholder="https://facebook.com/riyadhrestaurant"
+                      placeholder={t("facebookPlaceholder")}
                       className="rounded-xl h-12 text-base border-2 focus:border-primary/50 transition-all duration-200"
                     />
                   </div>
@@ -460,7 +458,7 @@ function AddAdPageContent() {
             {/* Image Upload */}
             <div className="ultra-card p-6 md:p-8 lg:p-10">
               <h3 className="text-xl md:text-2xl lg:text-3xl font-bold gradient-text mb-8 text-center">
-                صورة الشركة
+                {t("imageLabel")}
               </h3>
               <div className="max-w-md mx-auto">
                 <ImageUpload
@@ -471,7 +469,7 @@ function AddAdPageContent() {
                 {formData.logo && (
                   <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
                     <p className="text-sm text-green-700 font-medium text-center">
-                      ✓ تم اختيار شعار جديد بنجاح
+                      ✓ New logo selected successfully
                     </p>
                   </div>
                 )}
@@ -490,12 +488,12 @@ function AddAdPageContent() {
                   {loading ? (
                     <div className="flex items-center gap-3">
                       <LoadingSpinner size="sm" />
-                      <span>جاري الإرسال...</span>
+                      <span>{t("submittingAd")}</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-3">
                       <Plus className="h-5 w-5 md:h-6 md:w-6" />
-                      <span>إرسال الطلب للمراجعة</span>
+                      <span>{t("submitAdButton")}</span>
                     </div>
                   )}
                 </Button>

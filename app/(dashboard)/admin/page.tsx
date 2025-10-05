@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AdminRoute } from "@/components/auth/route-guard";
 import { UserStatsCards } from "@/components/admin/user-stats-cards";
+import { useI18n } from "@/providers/lang-provider";
 import {
   Building2,
   Users,
@@ -29,6 +30,7 @@ interface StatsData {
 }
 
 function AdminDashboardContent() {
+  const { t } = useI18n();
   const [stats, setStats] = useState<StatsData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -102,11 +104,9 @@ function AdminDashboardContent() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">
-              لوحة تحكم المدير
+              {t("adminDashboardTitle")}
             </h1>
-            <p className="text-gray-600 mt-2">
-              مرحباً بك في نظام إدارة AddWall
-            </p>
+            <p className="text-gray-600 mt-2">{t("adminDashboardWelcome")}</p>
           </div>
 
           {/* Stats Cards */}
@@ -114,7 +114,7 @@ function AdminDashboardContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  إجمالي الشركات
+                  {t("adminTotalCompanies")}
                 </CardTitle>
                 <Building2 className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -125,11 +125,11 @@ function AdminDashboardContent() {
                 <div className="flex items-center gap-2 mt-2">
                   <Badge variant="secondary" className="text-xs">
                     <CheckCircle className="h-3 w-3 mr-1" />
-                    {stats?.approvedCompanies || 0} معتمدة
+                    {stats?.approvedCompanies || 0} {t("adminApproved")}
                   </Badge>
                   <Badge variant="outline" className="text-xs">
                     <Clock className="h-3 w-3 mr-1" />
-                    {stats?.pendingCompanies || 0} معلقة
+                    {stats?.pendingCompanies || 0} {t("adminPending")}
                   </Badge>
                 </div>
               </CardContent>
@@ -138,7 +138,7 @@ function AdminDashboardContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  إجمالي المستخدمين
+                  {t("adminTotalUsers")}
                 </CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -147,14 +147,16 @@ function AdminDashboardContent() {
                   {stats?.totalUsers || 0}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  مستخدمين مسجلين في النظام
+                  {t("adminRegisteredUsers")}
                 </p>
               </CardContent>
             </Card>
 
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">التصنيفات</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  {t("adminCategories")}
+                </CardTitle>
                 <Tags className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -162,7 +164,7 @@ function AdminDashboardContent() {
                   {stats?.totalCategories || 0}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  تصنيفات متاحة
+                  {t("adminAvailableCategories")}
                 </p>
               </CardContent>
             </Card>
@@ -172,10 +174,10 @@ function AdminDashboardContent() {
           <div className="mb-8">
             <div className="mb-4">
               <h2 className="text-xl font-semibold text-gray-900">
-                إحصائيات المستخدمين
+                {t("adminUserStatistics")}
               </h2>
               <p className="text-sm text-gray-600">
-                تفاصيل شاملة عن المستخدمين في النظام
+                {t("adminUserStatisticsDesc")}
               </p>
             </div>
             <UserStatsCards />
@@ -187,20 +189,22 @@ function AdminDashboardContent() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <AlertCircle className="h-5 w-5 text-orange-500" />
-                  إدارة الشركات
+                  {t("adminCompaniesManagement")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  مراجعة واعتماد الشركات الجديدة
+                  {t("adminReviewApproveCompanies")}
                 </p>
                 <div className="flex gap-2">
                   <Button asChild size="sm" variant="outline">
-                    <Link href="/admin/companies">عرض الشركات</Link>
+                    <Link href="/admin/companies">
+                      {t("adminViewCompanies")}
+                    </Link>
                   </Button>
                   {stats?.pendingCompanies && stats.pendingCompanies > 0 && (
                     <Badge variant="destructive" className="text-xs">
-                      {stats.pendingCompanies} معلقة
+                      {stats.pendingCompanies} {t("adminPending")}
                     </Badge>
                   )}
                 </div>
@@ -211,15 +215,15 @@ function AdminDashboardContent() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-blue-500" />
-                  إدارة المستخدمين
+                  {t("adminUsersManagement")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  إدارة حسابات المستخدمين والصلاحيات
+                  {t("adminManageUserAccounts")}
                 </p>
                 <Button asChild size="sm" variant="outline">
-                  <Link href="/admin/users">إدارة المستخدمين</Link>
+                  <Link href="/admin/users">{t("adminManageUsers")}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -228,15 +232,17 @@ function AdminDashboardContent() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Tags className="h-5 w-5 text-green-500" />
-                  إدارة التصنيفات
+                  {t("adminCategoriesManagement")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  إضافة وتعديل التصنيفات
+                  {t("adminAddEditCategories")}
                 </p>
                 <Button asChild size="sm" variant="outline">
-                  <Link href="/admin/categories">إدارة التصنيفات</Link>
+                  <Link href="/admin/categories">
+                    {t("adminManageCategories")}
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -245,31 +251,41 @@ function AdminDashboardContent() {
           {/* Recent Activity */}
           <Card>
             <CardHeader>
-              <CardTitle>النشاط الأخير</CardTitle>
+              <CardTitle>{t("adminRecentActivity")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">تم اعتماد شركة جديدة</p>
-                    <p className="text-xs text-muted-foreground">منذ 5 دقائق</p>
+                    <p className="text-sm font-medium">
+                      {t("adminNewCompanyApproved")}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      5 {t("adminMinutesAgo")}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                   <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">مستخدم جديد مسجل</p>
+                    <p className="text-sm font-medium">
+                      {t("adminNewUserRegistered")}
+                    </p>
                     <p className="text-xs text-muted-foreground">
-                      منذ 15 دقيقة
+                      15 {t("adminMinutesAgo")}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                   <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">طلب تصنيف جديد</p>
-                    <p className="text-xs text-muted-foreground">منذ ساعة</p>
+                    <p className="text-sm font-medium">
+                      {t("adminNewCategoryRequest")}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("adminHourAgo")}
+                    </p>
                   </div>
                 </div>
               </div>

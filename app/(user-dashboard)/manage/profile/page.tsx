@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProtectedRoute } from "@/components/auth/route-guard";
 import { DashboardNav } from "@/components/layout/dashboard-nav";
+import { useI18n } from "@/providers/lang-provider";
 import { User, Mail, Phone, Calendar, Save, Loader2 } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { toast } from "sonner";
@@ -21,6 +22,7 @@ interface UserProfile {
 }
 
 function ProfileContent() {
+  const { t } = useI18n();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -58,7 +60,7 @@ function ProfileContent() {
       }
     } catch (error) {
       console.error("Error fetching user profile:", error);
-      toast.error("فشل في جلب بيانات الملف الشخصي");
+      toast.error(t("failedToFetchProfile"));
     } finally {
       setLoading(false);
     }
@@ -88,7 +90,7 @@ function ProfileContent() {
       }, 1000);
     } catch (error) {
       console.error("Error updating profile:", error);
-      toast.error("فشل في تحديث الملف الشخصي");
+      toast.error(t("failedToUpdateProfile"));
     } finally {
       setSaving(false);
     }
@@ -136,8 +138,8 @@ function ProfileContent() {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">الملف الشخصي</h1>
-            <p className="text-gray-600 mt-2">إدارة بيانات حسابك الشخصي</p>
+            <h1 className="text-3xl font-bold text-gray-900">{t("profile")}</h1>
+            <p className="text-gray-600 mt-2">{t("manageAccountData")}</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -145,12 +147,12 @@ function ProfileContent() {
             <div className="lg:col-span-2">
               <Card>
                 <CardHeader>
-                  <CardTitle>معلومات الحساب</CardTitle>
+                  <CardTitle>{t("accountInformation")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                      <Label htmlFor="name">الاسم الكامل</Label>
+                      <Label htmlFor="name">{t("fullName")}</Label>
                       <div className="relative">
                         <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -179,12 +181,12 @@ function ProfileContent() {
                         />
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
-                        لا يمكن تغيير البريد الإلكتروني
+                        {t("cannotChangeEmail")}
                       </p>
                     </div>
 
                     <div>
-                      <Label htmlFor="phone">رقم الهاتف</Label>
+                      <Label htmlFor="phone">{t("phoneNumber")}</Label>
                       <div className="relative">
                         <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -203,12 +205,12 @@ function ProfileContent() {
                       {saving ? (
                         <>
                           <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          جاري الحفظ...
+                          {t("saving")}
                         </>
                       ) : (
                         <>
                           <Save className="h-4 w-4 mr-2" />
-                          حفظ التغييرات
+                          {t("saveChanges")}
                         </>
                       )}
                     </Button>
@@ -222,26 +224,30 @@ function ProfileContent() {
               {/* Account Status */}
               <Card>
                 <CardHeader>
-                  <CardTitle>حالة الحساب</CardTitle>
+                  <CardTitle>{t("accountStatus")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">النوع</span>
+                    <span className="text-sm text-muted-foreground">
+                      {t("type")}
+                    </span>
                     <span className="font-medium">
-                      {user.role === "admin" ? "مدير" : "مستخدم"}
+                      {user.role === "admin" ? t("admin") : t("user")}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">
-                      الحالة
+                      {t("status")}
                     </span>
-                    <span className="font-medium text-green-600">نشط</span>
+                    <span className="font-medium text-green-600">
+                      {t("active")}
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">
-                      تاريخ الانضمام
+                      {t("joinDate")}
                     </span>
                     <span className="font-medium text-sm">
                       {new Date(user.createdAt).toLocaleDateString("ar-SA")}
@@ -253,20 +259,20 @@ function ProfileContent() {
               {/* Quick Stats */}
               <Card>
                 <CardHeader>
-                  <CardTitle>إحصائيات سريعة</CardTitle>
+                  <CardTitle>{t("quickStats")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="text-center p-4 bg-primary/5 rounded-lg">
                     <div className="text-2xl font-bold text-primary">0</div>
                     <div className="text-sm text-muted-foreground">
-                      إعلانات نشطة
+                      {t("activeAds")}
                     </div>
                   </div>
 
                   <div className="text-center p-4 bg-green-50 rounded-lg">
                     <div className="text-2xl font-bold text-green-600">0</div>
                     <div className="text-sm text-muted-foreground">
-                      مشاهدات هذا الشهر
+                      {t("viewsThisMonth")}
                     </div>
                   </div>
                 </CardContent>
@@ -281,11 +287,10 @@ function ProfileContent() {
                     </div>
                     <div>
                       <h4 className="font-medium text-orange-900">
-                        نصيحة أمان
+                        {t("securityTip")}
                       </h4>
                       <p className="text-sm text-orange-700 mt-1">
-                        تأكد من تحديث بياناتك الشخصية بانتظام للحفاظ على أمان
-                        حسابك.
+                        {t("securityTipDesc")}
                       </p>
                     </div>
                   </div>

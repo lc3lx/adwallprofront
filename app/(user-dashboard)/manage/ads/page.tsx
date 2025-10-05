@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProtectedRoute } from "@/components/auth/route-guard";
 import { DashboardNav } from "@/components/layout/dashboard-nav";
+import { useI18n } from "@/providers/lang-provider";
 import {
   Building2,
   PlusCircle,
@@ -42,6 +43,7 @@ interface Company {
 }
 
 function UserAdsContent() {
+  const { t } = useI18n();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -78,14 +80,14 @@ function UserAdsContent() {
       }
     } catch (error) {
       console.error("Error fetching user companies:", error);
-      toast.error("فشل في جلب الإعلانات");
+      toast.error(t("failedToFetchAds"));
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteCompany = async (companyId: string) => {
-    if (!confirm("هل أنت متأكد من حذف هذا الإعلان؟")) return;
+    if (!confirm(t("confirmDeleteAd"))) return;
 
     try {
       const response = await fetch(
@@ -100,13 +102,13 @@ function UserAdsContent() {
 
       if (response.ok) {
         setCompanies(companies.filter((company) => company._id !== companyId));
-        toast.success("تم حذف الإعلان بنجاح");
+        toast.success(t("adDeletedSuccessfully"));
       } else {
-        toast.error("فشل في حذف الإعلان");
+        toast.error(t("failedToDeleteAd"));
       }
     } catch (error) {
       console.error("Error deleting company:", error);
-      toast.error("حدث خطأ أثناء الحذف");
+      toast.error(t("errorDuringDeletion"));
     }
   };
 
@@ -130,14 +132,14 @@ function UserAdsContent() {
       return (
         <Badge variant="default" className="bg-green-500">
           <CheckCircle className="h-3 w-3 mr-1" />
-          معتمد
+          {t("approvedBadge")}
         </Badge>
       );
     }
     return (
       <Badge variant="secondary">
         <Clock className="h-3 w-3 mr-1" />
-        قيد المراجعة
+        {t("pendingBadge")}
       </Badge>
     );
   };
@@ -165,16 +167,14 @@ function UserAdsContent() {
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                إدارة الإعلانات
+                {t("manageAds")}
               </h1>
-              <p className="text-gray-600 mt-2">
-                إدارة إعلاناتك الشخصية في AddWall
-              </p>
+              <p className="text-gray-600 mt-2">{t("manageAccountData")}</p>
             </div>
             <Button asChild className="bg-primary hover:bg-primary/90">
               <Link href="/manage/ads/new">
                 <PlusCircle className="h-4 w-4 mr-2" />
-                إضافة إعلان جديد
+                {t("addNewAd")}
               </Link>
             </Button>
           </div>
@@ -184,7 +184,7 @@ function UserAdsContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  إجمالي الإعلانات
+                  {t("totalAds")}
                 </CardTitle>
                 <Building2 className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -195,7 +195,9 @@ function UserAdsContent() {
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">المعتمدة</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  {t("approved")}
+                </CardTitle>
                 <CheckCircle className="h-4 w-4 text-green-500" />
               </CardHeader>
               <CardContent>
@@ -208,7 +210,7 @@ function UserAdsContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  قيد المراجعة
+                  {t("pending")}
                 </CardTitle>
                 <Clock className="h-4 w-4 text-orange-500" />
               </CardHeader>
@@ -222,7 +224,7 @@ function UserAdsContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  معدل القبول
+                  {t("acceptanceRate")}
                 </CardTitle>
                 <AlertCircle className="h-4 w-4 text-blue-500" />
               </CardHeader>
@@ -250,7 +252,7 @@ function UserAdsContent() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <input
                       type="text"
-                      placeholder="البحث في الإعلانات..."
+                      placeholder={t("searchAds")}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -263,7 +265,7 @@ function UserAdsContent() {
                     size="sm"
                     onClick={() => setStatusFilter("all")}
                   >
-                    الكل ({companies.length})
+                    {t("all")} ({companies.length})
                   </Button>
                   <Button
                     variant={
@@ -272,14 +274,15 @@ function UserAdsContent() {
                     size="sm"
                     onClick={() => setStatusFilter("approved")}
                   >
-                    معتمد ({companies.filter((c) => c.isApproved).length})
+                    {t("approved")} (
+                    {companies.filter((c) => c.isApproved).length})
                   </Button>
                   <Button
                     variant={statusFilter === "pending" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("pending")}
                   >
-                    قيد المراجعة (
+                    {t("pending")} (
                     {companies.filter((c) => !c.isApproved).length})
                   </Button>
                 </div>
@@ -295,20 +298,18 @@ function UserAdsContent() {
                   <div className="text-center">
                     <Building2 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-xl font-semibold mb-2">
-                      {companies.length === 0
-                        ? "لا توجد إعلانات"
-                        : "لا توجد نتائج"}
+                      {companies.length === 0 ? t("noAds") : t("noResults")}
                     </h3>
                     <p className="text-muted-foreground mb-6">
                       {companies.length === 0
-                        ? "ابدأ بإضافة أول إعلان لك في AddWall"
-                        : "جرب تغيير معايير البحث"}
+                        ? t("startWithFirstAd")
+                        : t("tryDifferentSearch")}
                     </p>
                     {companies.length === 0 && (
                       <Button asChild>
                         <Link href="/manage/ads/new">
                           <PlusCircle className="h-4 w-4 mr-2" />
-                          إضافة أول إعلان
+                          {t("addFirstAd")}
                         </Link>
                       </Button>
                     )}
@@ -353,15 +354,17 @@ function UserAdsContent() {
                           </p>
 
                           <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                            <span>التصنيف: {company.category}</span>
+                            <span>
+                              {t("categoryLabel")} {company.category}
+                            </span>
                             <span>•</span>
                             <span>
-                              تم الإنشاء:{" "}
+                              {t("createdAt")}{" "}
                               {company.createdAt
                                 ? new Date(
                                     company.createdAt
                                   ).toLocaleDateString("ar-SA")
-                                : "غير محدد"}
+                                : t("undefined")}
                             </span>
                           </div>
                         </div>
@@ -373,7 +376,7 @@ function UserAdsContent() {
                             href={`/user-dashboard/manage/ads/${company._id}`}
                           >
                             <Eye className="h-4 w-4 mr-1" />
-                            عرض
+                            {t("viewAd")}
                           </Link>
                         </Button>
                         <Button variant="outline" size="sm" asChild>
@@ -381,7 +384,7 @@ function UserAdsContent() {
                             href={`/user-dashboard/manage/ads/${company._id}/edit`}
                           >
                             <Edit className="h-4 w-4 mr-1" />
-                            تعديل
+                            {t("editAd")}
                           </Link>
                         </Button>
                         <Button
@@ -391,7 +394,7 @@ function UserAdsContent() {
                           className="text-red-600 hover:text-red-700 hover:bg-red-50"
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
-                          حذف
+                          {t("deleteAd")}
                         </Button>
                       </div>
                     </div>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProtectedRoute } from "@/components/auth/route-guard";
 import { DashboardNav } from "@/components/layout/dashboard-nav";
+import { useI18n } from "@/providers/lang-provider";
 import {
   Building2,
   PlusCircle,
@@ -34,6 +35,7 @@ interface Company {
 }
 
 function UserDashboardContent() {
+  const { t } = useI18n();
   const [stats, setStats] = useState({
     totalCompanies: 0,
     approvedCompanies: 0,
@@ -115,23 +117,21 @@ function UserDashboardContent() {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  لوحة التحكم
+                  {t("dashboard")}
                 </h1>
-                <p className="text-gray-600 mt-2">
-                  مرحباً بك في لوحة تحكم AddWall - إدارة إعلاناتك بسهولة
-                </p>
+                <p className="text-gray-600 mt-2">{t("welcomeToDashboard")}</p>
               </div>
               <div className="flex gap-3">
                 <Button asChild variant="outline">
                   <Link href="/manage/ads">
                     <Eye className="h-4 w-4 mr-2" />
-                    إدارة الإعلانات
+                    {t("manageAds")}
                   </Link>
                 </Button>
                 <Button asChild className="bg-primary hover:bg-primary/90">
                   <Link href="/manage/ads/new">
                     <PlusCircle className="h-4 w-4 mr-2" />
-                    إضافة إعلان جديد
+                    {t("addNewAd")}
                   </Link>
                 </Button>
               </div>
@@ -143,7 +143,7 @@ function UserDashboardContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  إجمالي الإعلانات
+                  {t("totalAds")}
                 </CardTitle>
                 <Building2 className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -152,7 +152,7 @@ function UserDashboardContent() {
                 <p className="text-xs text-muted-foreground">
                   {stats.monthlyGrowth > 0 && (
                     <span className="text-green-600">
-                      +{stats.monthlyGrowth}% من الشهر الماضي
+                      +{stats.monthlyGrowth}% {t("fromLastMonth")}
                     </span>
                   )}
                 </p>
@@ -161,7 +161,9 @@ function UserDashboardContent() {
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">المعتمدة</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  {t("approved")}
+                </CardTitle>
                 <CheckCircle className="h-4 w-4 text-green-500" />
               </CardHeader>
               <CardContent>
@@ -174,7 +176,7 @@ function UserDashboardContent() {
                         (stats.approvedCompanies / stats.totalCompanies) * 100
                       )
                     : 0}
-                  % معدل القبول
+                  {t("acceptanceRatePercent")}
                 </p>
               </CardContent>
             </Card>
@@ -182,7 +184,7 @@ function UserDashboardContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  قيد المراجعة
+                  {t("pending")}
                 </CardTitle>
                 <Clock className="h-4 w-4 text-orange-500" />
               </CardHeader>
@@ -191,7 +193,7 @@ function UserDashboardContent() {
                   {stats.pendingCompanies}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  في انتظار الموافقة
+                  {t("pendingApproval")}
                 </p>
               </CardContent>
             </Card>
@@ -199,7 +201,7 @@ function UserDashboardContent() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  إجمالي المشاهدات
+                  {t("totalViews")}
                 </CardTitle>
                 <Eye className="h-4 w-4 text-blue-500" />
               </CardHeader>
@@ -208,7 +210,7 @@ function UserDashboardContent() {
                   {stats.totalViews}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  مشاهدات هذا الشهر
+                  {t("viewsThisMonth")}
                 </p>
               </CardContent>
             </Card>
@@ -221,14 +223,14 @@ function UserDashboardContent() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <BarChart3 className="h-5 w-5" />
-                    إجراءات سريعة
+                    {t("quickActions")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <Button asChild className="w-full justify-start">
                     <Link href="/manage/ads/new">
                       <PlusCircle className="h-4 w-4 mr-3" />
-                      إضافة إعلان جديد
+                      {t("addNewAd")}
                     </Link>
                   </Button>
 
@@ -239,7 +241,7 @@ function UserDashboardContent() {
                   >
                     <Link href="/manage/ads">
                       <Eye className="h-4 w-4 mr-3" />
-                      عرض جميع الإعلانات
+                      {t("viewAllAds")}
                     </Link>
                   </Button>
 
@@ -250,7 +252,7 @@ function UserDashboardContent() {
                   >
                     <Link href="/manage/profile">
                       <Users className="h-4 w-4 mr-3" />
-                      تعديل الملف الشخصي
+                      {t("editProfile")}
                     </Link>
                   </Button>
                 </CardContent>
@@ -261,30 +263,30 @@ function UserDashboardContent() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5" />
-                    معلومات الحساب
+                    {t("accountInfo")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <p className="text-sm text-muted-foreground">الاسم</p>
+                    <p className="text-sm text-muted-foreground">{t("name")}</p>
                     <p className="font-medium">{currentUser?.name}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">
-                      البريد الإلكتروني
+                      {t("email")}
                     </p>
                     <p className="font-medium">{currentUser?.email}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">
-                      تاريخ الانضمام
+                      {t("joinDate")}
                     </p>
                     <p className="font-medium">
                       {currentUser?.createdAt
                         ? new Date(currentUser.createdAt).toLocaleDateString(
                             "ar-SA"
                           )
-                        : "غير محدد"}
+                        : t("undefined")}
                     </p>
                   </div>
                 </CardContent>
@@ -298,11 +300,11 @@ function UserDashboardContent() {
                   <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                       <Calendar className="h-5 w-5" />
-                      آخر الإعلانات
+                      {t("recentAds")}
                     </CardTitle>
                     <Button asChild variant="ghost" size="sm">
                       <Link href="/manage/ads">
-                        عرض الكل
+                        {t("viewAll")}
                         <ArrowRight className="h-4 w-4 mr-2" />
                       </Link>
                     </Button>
@@ -313,15 +315,15 @@ function UserDashboardContent() {
                     <div className="text-center py-8">
                       <Building2 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                       <h3 className="text-lg font-semibold mb-2">
-                        لا توجد إعلانات
+                        {t("noAds")}
                       </h3>
                       <p className="text-muted-foreground mb-4">
-                        ابدأ بإضافة أول إعلان لك في AddWall
+                        {t("startWithFirstAd")}
                       </p>
                       <Button asChild>
                         <Link href="/manage/ads/new">
                           <PlusCircle className="h-4 w-4 mr-2" />
-                          إضافة أول إعلان
+                          {t("addFirstAd")}
                         </Link>
                       </Button>
                     </div>
@@ -353,7 +355,7 @@ function UserDashboardContent() {
                                 {company.description}
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                التصنيف: {company.category}
+                                {t("categoryLabel")} {company.category}
                               </p>
                             </div>
                           </div>
@@ -362,12 +364,12 @@ function UserDashboardContent() {
                             {company.isApproved ? (
                               <Badge variant="default" className="bg-green-500">
                                 <CheckCircle className="h-3 w-3 mr-1" />
-                                معتمد
+                                {t("approvedBadge")}
                               </Badge>
                             ) : (
                               <Badge variant="secondary">
                                 <Clock className="h-3 w-3 mr-1" />
-                                قيد المراجعة
+                                {t("pendingBadge")}
                               </Badge>
                             )}
 

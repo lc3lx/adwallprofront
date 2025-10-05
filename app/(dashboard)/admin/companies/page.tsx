@@ -62,7 +62,7 @@ function AdminCompaniesContent() {
           <Card className="mb-6">
             <CardContent className="pt-6">
               <div className="flex flex-col md:flex-row gap-4">
-                {/* البحث العام */}
+                {/* General Search */}
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -73,7 +73,7 @@ function AdminCompaniesContent() {
                   />
                 </div>
 
-                {/* فلتر الدولة */}
+                {/* Country Filter */}
                 <div className="w-full md:w-48">
                   <Input
                     placeholder={t("searchByCountry")}
@@ -82,7 +82,7 @@ function AdminCompaniesContent() {
                   />
                 </div>
 
-                {/* فلتر المدينة */}
+                {/* City Filter */}
                 <div className="w-full md:w-48">
                   <Input
                     placeholder={t("searchByCity")}
@@ -91,7 +91,7 @@ function AdminCompaniesContent() {
                   />
                 </div>
 
-                {/* زر مسح الفلاتر */}
+                {/* Clear Filters Button */}
                 {(searchQuery || countryFilter || cityFilter) && (
                   <Button
                     variant="outline"

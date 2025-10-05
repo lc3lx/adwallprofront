@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { AdminRoute } from "@/components/auth/route-guard";
 import { AdminUsersTable } from "@/components/admin/admin-users-table";
 import { toast } from "sonner";
+import { useI18n } from "@/providers/lang-provider";
 import {
   Users,
   UserPlus,
@@ -27,6 +28,7 @@ interface UserStats {
 }
 
 function AdminUsersContent() {
+  const { t } = useI18n();
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,14 +49,14 @@ function AdminUsersContent() {
       });
 
       if (!response.ok) {
-        throw new Error("فشل في جلب إحصائيات المستخدمين");
+        throw new Error(t("adminFailedToFetchUserStats"));
       }
 
       const data = await response.json();
       setUserStats(data.data);
     } catch (error) {
       console.error("Error fetching user stats:", error);
-      toast.error("فشل في جلب إحصائيات المستخدمين");
+      toast.error(t("adminFailedToFetchUserStats"));
     } finally {
       setLoading(false);
     }
@@ -74,10 +76,10 @@ function AdminUsersContent() {
               <Users className="h-8 w-8 text-primary" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  إدارة المستخدمين
+                  {t("adminUsersManagementTitle")}
                 </h1>
                 <p className="text-gray-600 mt-2">
-                  إدارة جميع مستخدمي النظام والصلاحيات
+                  {t("adminUsersManagementDesc")}
                 </p>
               </div>
             </div>
@@ -86,7 +88,7 @@ function AdminUsersContent() {
               className="bg-primary hover:bg-primary/90"
             >
               <UserPlus className="h-4 w-4 mr-2" />
-              إضافة مستخدم جديد
+              {t("adminAddNewUser")}
             </Button>
           </div>
 
@@ -95,7 +97,7 @@ function AdminUsersContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  إجمالي المستخدمين
+                  {t("adminTotalUsers")}
                 </CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -106,22 +108,7 @@ function AdminUsersContent() {
                     : userStats?.totalUsers.toLocaleString() || "0"}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  مستخدم مسجل في النظام
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">المدراء</CardTitle>
-                <Crown className="h-4 w-4 text-yellow-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-yellow-600">
-                  {loading ? "..." : userStats?.adminsCount || "0"}
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  حسابات إدارية
+                  {t("adminRegisteredUser")}
                 </p>
               </CardContent>
             </Card>
@@ -129,7 +116,24 @@ function AdminUsersContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  المستخدمون العاديون
+                  {t("adminAdmins")}
+                </CardTitle>
+                <Crown className="h-4 w-4 text-yellow-500" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-yellow-600">
+                  {loading ? "..." : userStats?.adminsCount || "0"}
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  {t("adminAdminAccounts")}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  {t("adminRegularUsers")}
                 </CardTitle>
                 <Shield className="h-4 w-4 text-blue-500" />
               </CardHeader>
@@ -140,7 +144,7 @@ function AdminUsersContent() {
                     : userStats?.regularUsersCount.toLocaleString() || "0"}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  مستخدمين للإعلانات
+                  {t("adminForAdsUsers")}
                 </p>
               </CardContent>
             </Card>
@@ -148,7 +152,7 @@ function AdminUsersContent() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  نشط هذا الأسبوع
+                  {t("adminActiveThisWeek")}
                 </CardTitle>
                 <TrendingUp className="h-4 w-4 text-green-500" />
               </CardHeader>
@@ -157,7 +161,7 @@ function AdminUsersContent() {
                   {loading ? "..." : userStats?.activeThisWeek || "0"}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  مستخدم نشط في آخر 7 أيام
+                  {t("adminActiveLast7Days")}
                 </p>
               </CardContent>
             </Card>
@@ -168,7 +172,7 @@ function AdminUsersContent() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <AlertCircle className="h-5 w-5 text-orange-500" />
-                قائمة المستخدمين
+                {t("adminUsersList")}
               </CardTitle>
             </CardHeader>
             <CardContent>
