@@ -140,7 +140,7 @@ export function UltraHeader() {
               <div className="relative h-14 w-14 lg:h-16 lg:w-16 overflow-hidden rounded-3xl group-hover:ring-primary-300 transition-all duration-300">
                 <Image
                   src="/images/adwell-logo.jpg"
-                  alt="AdWall Logo"
+                  alt="AdWallPro Logo"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -148,7 +148,7 @@ export function UltraHeader() {
             </div>
             <div className="hidden sm:block">
               <h1 className="text-2xl lg:text-3xl font-bold gradient-text">
-                AdWall
+                AdWallPor
               </h1>
               <p className="text-sm text-muted-foreground -mt-1 font-medium">
                 {t("modernAdWall")}

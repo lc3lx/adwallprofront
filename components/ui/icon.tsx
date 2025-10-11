@@ -61,6 +61,8 @@ import {
   ChevronRight as LucideChevronRight,
   Play as LucidePlay,
   Pause as LucidePause,
+  Send as LucideSend,
+  Bot as LucideBot,
   type LucideProps,
 } from "lucide-react";
 
@@ -125,6 +127,8 @@ export const ChevronLeft = LucideChevronLeft;
 export const ChevronRight = LucideChevronRight;
 export const Play = LucidePlay;
 export const Pause = LucidePause;
+export const Send = LucideSend;
+export const Bot = LucideBot;
 
 // مكون Icon عام يمكن استخدامه مع أي أيقونة
 interface IconProps extends LucideProps {
@@ -193,6 +197,8 @@ const iconMap = {
   ChevronRight: LucideChevronRight,
   Play: LucidePlay,
   Pause: LucidePause,
+  Send: LucideSend,
+  Bot: LucideBot,
 } as const;
 
 export function Icon({ name, ...props }: IconProps) {

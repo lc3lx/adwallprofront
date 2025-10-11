@@ -34,11 +34,17 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "AdWell - جدار الإعلانات العصري",
-    template: "%s | AdWell",
+    default: "AdWallPro - منصة الإعلانات العصري",
+    template: "%s | AdWallPro",
   },
-  description: "منصة عصرية لعرض إعلانات الشركات مع تصميم متطور وخيارات VIP",
+  description:
+    "AdWallPro – المنصة الذكية التي تجمع المعلنين والباحثين عن أفضل العروض في مكان واحد. أطلق حملاتك الإعلانية بسهولة، أو اكتشف العروض والخدمات التي تناسبك بثقة وسلاسة. تجربة سريعة وموثوقة لكل من يعلن ويبحث عن الفرصة المثالية.",
   generator: "v0.app",
+  icons: {
+    icon: "/images/adwell-logo.jpg",
+    shortcut: "/images/adwell-logo.jpg",
+    apple: "/images/adwell-logo.jpg",
+  },
 };
 
 export default function RootLayout({

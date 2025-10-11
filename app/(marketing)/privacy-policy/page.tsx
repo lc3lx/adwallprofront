@@ -56,7 +56,7 @@ export default function PrivacyPolicyPage() {
             {
               title: "حقوق الملكية",
               content:
-                "جميع الحقوق محفوظة © منذ تاريخ إنشاء الموقع: [YYYY-MM-DD] وحتى آخر تحديث بتاريخ: [YYYY-MM-DD] Adwall. يُمنع نسخ أو إعادة نشر أي جزء من المحتوى أو تصميم الموقع إلا بإذن مسبق من الإدارة.",
+                "جميع الحقوق محفوظة © منذ تاريخ إنشاء الموقع: 2025/10 وحتى آخر تحديث بتاريخ: 2025 Adwall. يُمنع نسخ أو إعادة نشر أي جزء من المحتوى أو تصميم الموقع إلا بإذن مسبق من الإدارة.",
             },
           ],
         }
@@ -106,7 +106,7 @@ export default function PrivacyPolicyPage() {
             {
               title: "Copyright",
               content:
-                "All rights reserved © From the site creation date: [YYYY-MM-DD] to the last update date: [YYYY-MM-DD] Adwall. No part of the content or design of the site may be copied or republished without prior permission from the administration.",
+                "All rights reserved © From the site creation date: 2025/10 to the last update date: 2025/10 Adwall. No part of the content or design of the site may be copied or republished without prior permission from the administration.",
             },
           ],
         };

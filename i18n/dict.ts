@@ -1,7 +1,7 @@
 export const dict = {
   ar: {
     // Site Info
-    siteName: "AdWell",
+    siteName: "AdWellPro",
     siteDescription: "منصة الإعلانات الذكية ",
 
     // Navigation
@@ -94,7 +94,7 @@ export const dict = {
 
     // CTA Section
     startJourney: "ابدأ رحلتك الآن",
-    joinFuture: "انضم إلى مستقبل الإعلانات الرقمية",
+    joinFuture: "انضم إلى مستقبل الإعلانات الذكية",
     ctaDescription:
       "كن جزءاً من ثورة الإعلانات الرقمية وانضم إلى آلاف الشركات الناجحة التي تستخدم AdWell للوصول إلى عملاء جدد وتحقيق نمو استثنائي في أعمالها",
     startFreeNow: "ابدأ مجاناً الآن",
@@ -134,7 +134,7 @@ export const dict = {
     everyAdHasChance: "وكل إعلان له فرصة، وكل فرصة يمكن أن تتحول إلى نجاح",
 
     // Header
-    modernAdWall: "جدار الإعلانات الذكية",
+    modernAdWall: "منصة الإعلانات الذكية",
     addNewAdBtn: "إضافة إعلان ",
 
     // Footer
@@ -151,13 +151,13 @@ export const dict = {
     settings: "الإعدادات",
     dashboardControl: "لوحة التحكم",
     adsManagement: "إدارة الإعلانات",
-    addNewAd: "إضافة إعلان جديد",
+    addNewAd: "إضافة إعلان ",
     personalProfile: "الملف الشخصي",
     user: "مستخدم",
 
     // Hero Section
     heroNewBadge: "جديد: إضافة شركتك مجاناً مع مراجعة سريعة",
-    heroTitle: "جدار إعلانات الشركات العصري",
+    heroTitle: "منصة إعلانات  الذكية",
     heroDescription:
       "المنصّة التي تجمع الزائرين والشركات في مكان واحد. في AdWall نوفر للزائرين تجربة سهلة وشفافة لاكتشاف أفضل الشركات والخدمات بسرعة، ونمنح الشركات فرصة مميزة للظهور أمام جمهور واسع يبحث عمّا يقدّمونه. Adwall منصّة ذكية تبني الثقة بين الشركات والعملاء، وهي المكان الأمثل للتميّز",
     browseCategories: "تصفح الفئات",

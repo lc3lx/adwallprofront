@@ -44,7 +44,7 @@ export function UltraCTA() {
                   variant="secondary"
                   className="rounded-2xl font-bold text-lg px-10 py-6 bg-white text-primary-600 hover:bg-white/90 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105"
                 >
-                  <Link href="/add-company">
+                  <Link href="/signup" className="flex items-center">
                     <Sparkles className="h-6 w-6 mr-3" />
                     {t("startFreeNow")}
                     <ArrowRight className="h-5 w-5 ml-3" />

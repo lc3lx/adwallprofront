@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   MapPin,
@@ -14,12 +14,13 @@ import {
   Facebook,
   Search,
 } from "@/components/ui/icon";
-import { Breadcrumb } from "@/components/common/breadcrumb";
+import { useAuthStore, isAuthenticated } from "@/lib/auth";
+import Link from "next/link";
+import Image from "next/image";
 import { useI18n } from "@/providers/lang-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import Image from "next/image";
+import { Breadcrumb } from "@/components/common/breadcrumb";
 
 // دالة لتنظيف رابط الصورة المكرر
 const cleanImageUrl = (imageUrl?: string): string => {
@@ -168,6 +169,8 @@ function CompanyCard({ company }: { company: any }) {
 export default function CompaniesCategoryPage() {
   const { id } = useParams<{ id: string }>();
   const { locale, t } = useI18n();
+  const router = useRouter();
+  const user = useAuthStore((s) => s.user);
   const [companies, setCompanies] = useState<any[]>([]);
   const [category, setCategory] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -448,11 +451,18 @@ export default function CompaniesCategoryPage() {
             <div className="flex flex-col sm:flex-row gap-3">
               {companies.length === 0 ? (
                 <>
-                  <Button asChild className="bg-primary hover:bg-primary/90">
-                    <Link href="/manage/companies/new">
-                      <Plus className="h-4 w-4 mr-2" />
-                      {t("addMyCompany")}
-                    </Link>
+                  <Button
+                    className="bg-primary hover:bg-primary/90"
+                    onClick={() => {
+                      if (!isAuthenticated()) {
+                        router.push("/login?redirect=/manage/ads/new");
+                      } else {
+                        router.push("/manage/ads/new");
+                      }
+                    }}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    {t("addMyCompany")}
                   </Button>
                   <Button variant="outline" asChild>
                     <Link href="/categories">
@@ -474,11 +484,18 @@ export default function CompaniesCategoryPage() {
                     <X className="h-4 w-4 mr-2" />
                     {t("removeFilters")}
                   </Button>
-                  <Button asChild>
-                    <Link href="/add-company">
-                      <Plus className="h-4 w-4 mr-2" />
-                      {t("addCompany")}
-                    </Link>
+                  <Button
+                    className="flex items-center"
+                    onClick={() => {
+                      if (!isAuthenticated()) {
+                        router.push("/login?redirect=/manage/ads/new");
+                      } else {
+                        router.push("/manage/ads/new");
+                      }
+                    }}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    {t("addCompany")}
                   </Button>
                 </>
               )}
